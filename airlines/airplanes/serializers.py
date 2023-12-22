@@ -2,7 +2,7 @@ from typing import Dict
 from django.core.serializers import json
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.core.serializers.json import Serializer
+# from django.core.serializers.json import Serializer
 
 from rest_framework import serializers
 
@@ -12,7 +12,7 @@ from .models import Airplane
 class AirplaneSerializer(serializers.ModelSerializer):
     class Meta:
         model = Airplane
-        fields = ['id', 'passenger', 'created_at']
+        fields = '__all__'
 
     def create(self, validated_data):
         return Airplane.objects.create(**validated_data)

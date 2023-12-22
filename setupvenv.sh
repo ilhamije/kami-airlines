@@ -13,8 +13,3 @@ else
     source "$VENV_DIR/bin/activate" && echo "New venv activated"
     pip install -r requirements.txt
 fi
-
-# cd "$PROJECT_DIR" || exit
-
-# echo "Running ./manage runserver..."
-# ./manage runserver

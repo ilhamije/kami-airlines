@@ -7,8 +7,10 @@ def gen_uuid():
 
 class Airplane(models.Model):
     uid = models.CharField(max_length=15, primary_key=True, unique=True, default=gen_uuid)
-    id = models.PositiveIntegerField(default=1)
-    passenger = models.PositiveIntegerField(default=1)
+    id = models.PositiveIntegerField(default=0)
+    passenger = models.PositiveIntegerField(default=0)
+    fuel_capacity = models.DecimalField(max_digits=20, decimal_places=3)
+    fuel_consumption = models.DecimalField(max_digits=20, decimal_places=3)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
