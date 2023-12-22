@@ -42,7 +42,9 @@ class AirplaneList(APIView):
             fuel_capacity = int(airplane_id) * 200
             fuel_consumption = round(log(airplane_id) * 0.80, 3) # liter per minute
             fuel_consumption_psg = round(int(passenger) * 0.002, 3) # liter per minute
-            total_fuel_consumption = fuel_consumption + fuel_consumption_psg
+            total_fuel_consumption = fuel_consumption + fuel_consumption_psg # liter per minute
+            # Flight Endurance (in minutes) = Fuel Capacity / Fuel Consumption Rate
+            flight_endurance = round(fuel_capacity/total_fuel_consumption, 3)
 
             print('airplane_id: ', airplane_id)
             print('passenger: ', passenger)
@@ -50,12 +52,14 @@ class AirplaneList(APIView):
             print('fuel_consumption: ', fuel_consumption)
             print('fuel_consumption_psg: ', fuel_consumption_psg)
             print('total_fuel_consumption: ', total_fuel_consumption)
+            print('flight_endurance: ', flight_endurance)
 
             item = {}
             item['id'] = airplane_id
             item['passenger'] = passenger
             item['fuel_capacity'] = fuel_capacity
             item['fuel_consumption'] = total_fuel_consumption
+            item['flight_endurance'] = flight_endurance
 
             new_data.append(item)
         return new_data

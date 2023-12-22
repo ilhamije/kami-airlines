@@ -23,4 +23,7 @@ class AirplaneSerializer(serializers.ModelSerializer):
     def to_representation(self, instance: Airplane) -> Dict:
         data = super().to_representation(instance)
         data['created_at'] = self.get_created_at(instance)
+        data['fuel_capacity'] = f'{instance.fuel_capacity} liters'
+        data['fuel_consumption'] = f'{instance.fuel_consumption} liters per min'
+        data['flight_endurance'] = f'{instance.flight_endurance} minutes'
         return data
