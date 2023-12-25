@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'airplanes'
+    'airplanes',
+    # 'django_nose',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,12 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH = False
+
+# # Use nose to run all tests
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# # Tell nose to measure coverage on the 'foo' and 'bar' apps
+# NOSE_ARGS = [
+#     '--with-coverage',
+#     '--cover-package=airlines',
+# ]

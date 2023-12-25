@@ -16,11 +16,18 @@ class AirplaneList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        response = self.check_data_length(request.data)
-        if response:
-            return response
+        data = request.data
+        srlzr = self.serializer_class(data=data, many=True)
+        srlzr.is_valid(raise_exception=True)
 
-        calculated_data = self.calculate(request.data)
+        if isinstance(data, dict):
+            data = [data]
+
+        check_length = self.check_data_length(data)
+        if check_length:
+            return check_length
+
+        calculated_data = self.calculate(data)
         serializer = self.serializer_class(data=calculated_data, many=True)
         try:
             serializer.is_valid(raise_exception=True)
@@ -30,11 +37,11 @@ class AirplaneList(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def check_data_length(self, data):
-        print(type(len(data)), len(data))
         if len(data)>10:
             return Response({"message":"Max data is 10"}, status=status.HTTP_400_BAD_REQUEST)
 
     def calculate(self, data):
+        print('incoming_data: ', data)
         new_data = []
         for i in data:
             airplane_id = int(i.get('id'))
@@ -46,16 +53,8 @@ class AirplaneList(APIView):
             # Flight Endurance (in minutes) = Fuel Capacity / Fuel Consumption Rate
             flight_endurance = round(fuel_capacity/total_fuel_consumption, 3)
 
-            print('airplane_id: ', airplane_id)
-            print('passenger: ', passenger)
-            print('fuel_capacity: ', fuel_capacity)
-            print('fuel_consumption: ', fuel_consumption)
-            print('fuel_consumption_psg: ', fuel_consumption_psg)
-            print('total_fuel_consumption: ', total_fuel_consumption)
-            print('flight_endurance: ', flight_endurance)
-
             item = {}
-            item['id'] = airplane_id
+            item['airplane_id'] = airplane_id
             item['passenger'] = passenger
             item['fuel_capacity'] = fuel_capacity
             item['fuel_consumption'] = total_fuel_consumption

@@ -10,9 +10,10 @@ from .models import Airplane
 
 
 class AirplaneSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Airplane
-        fields = '__all__'
+        fields = ['airplane_id', 'passenger']
 
     def create(self, validated_data):
         return Airplane.objects.create(**validated_data)
