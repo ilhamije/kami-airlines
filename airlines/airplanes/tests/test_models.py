@@ -43,18 +43,6 @@ class AirplaneTest(TestCase):
         self.assertTrue(isinstance(created, Airplane))
         self.assertEqual(created.passenger, 125)
 
-
-    # def test_airplane_creation_failed(self):
-    #     selected_data = self.data[0]
-    #     selected_data['passenger'] = -100
-    #     data_map = self.data_map(selected_data)
-
-    #     # Attempting to create an airplane with invalid data
-    #     with self.assertRaises(ValidationError):
-    #         created = self.create_airplane(*data_map)
-    #         created.full_clean()  # Triggering validation
-
-
     def test_negative_passenger(self):
         selected_data = self.data[0]
         selected_data['passenger'] = -10  # Setting passenger to a negative value

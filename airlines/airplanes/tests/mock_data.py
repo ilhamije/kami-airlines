@@ -6,8 +6,8 @@ data_1 = [
     ]
 
 data_1_dict = {
-            "airplane_id": 1,
-            "passenger": 102
+            "airplane_id": 4,
+            "passenger": 104
         }
 
 data_5 = [

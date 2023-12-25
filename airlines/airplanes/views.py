@@ -20,13 +20,16 @@ class AirplaneList(APIView):
         srlzr = self.serializer_class(data=data, many=True)
         srlzr.is_valid(raise_exception=True)
 
+        print('PRE- is it a dict?', data)
         if isinstance(data, dict):
+            print('is it a dict?', data)
             data = [data]
 
         check_length = self.check_data_length(data)
         if check_length:
             return check_length
 
+        print('POST - is it a dict?', data)
         calculated_data = self.calculate(data)
         serializer = self.serializer_class(data=calculated_data, many=True)
         try:
@@ -41,15 +44,20 @@ class AirplaneList(APIView):
             return Response({"message":"Max data is 10"}, status=status.HTTP_400_BAD_REQUEST)
 
     def calculate(self, data):
-        print('incoming_data: ', data)
         new_data = []
         for i in data:
-            airplane_id = int(i.get('id'))
+            airplane_id = int(i.get('airplane_id'))
+            print('process airplane_id: ', airplane_id)
             passenger = int(i.get('passenger'))
+            print('process passenger: ', passenger)
             fuel_capacity = int(airplane_id) * 200
+            print('process fuel_capacity: ', fuel_capacity)
             fuel_consumption = round(log(airplane_id) * 0.80, 3) # liter per minute
+            print('process fuel_consumption: ', fuel_consumption)
             fuel_consumption_psg = round(int(passenger) * 0.002, 3) # liter per minute
+            print('process fuel_consumption_psg: ', fuel_consumption_psg)
             total_fuel_consumption = fuel_consumption + fuel_consumption_psg # liter per minute
+            print('process total_fuel_consumption: ', total_fuel_consumption)
             # Flight Endurance (in minutes) = Fuel Capacity / Fuel Consumption Rate
             flight_endurance = round(fuel_capacity/total_fuel_consumption, 3)
 
@@ -60,5 +68,6 @@ class AirplaneList(APIView):
             item['fuel_consumption'] = total_fuel_consumption
             item['flight_endurance'] = flight_endurance
 
+            print('\n')
             new_data.append(item)
         return new_data
