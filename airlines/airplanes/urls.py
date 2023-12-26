@@ -1,9 +1,11 @@
-from django.urls import re_path
-from .views import AirplaneList
+from django.urls import path
+from .views import AirplaneList, AirplaneDetail
 
 
 app_name = "airplanes"
 
 urlpatterns = [
-    re_path('', AirplaneList.as_view(), name="airplanes-list"),
+    path('', AirplaneList.as_view(), name="airplanes-list"),
+    path('<str:pk>', AirplaneDetail.as_view(), name="airplanes-detail"),
+
 ]

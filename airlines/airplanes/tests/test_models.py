@@ -48,8 +48,7 @@ class AirplaneTest(TestCase):
         selected_data['passenger'] = -10  # Setting passenger to a negative value
         data_map = self.data_map(selected_data)
 
-        # Attempting to create an airplane with invalid passenger value
+        # Trying to create an airplane data with invalid passenger value
         with self.assertRaises(IntegrityError):
             created = self.create_airplane(*data_map)
-            created.full_clean()  # Triggering validation
-
+            created.full_clean()

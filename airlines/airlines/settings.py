@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'airplanes',
-    # 'django_nose',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -129,11 +129,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH = False
 
-# # Use nose to run all tests
-# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-
-# # Tell nose to measure coverage on the 'foo' and 'bar' apps
-# NOSE_ARGS = [
-#     '--with-coverage',
-#     '--cover-package=airlines',
-# ]
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+}
