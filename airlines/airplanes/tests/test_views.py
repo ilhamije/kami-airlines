@@ -12,13 +12,11 @@ class AirplanesTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.existing_data = Airplane.objects.create(
-            uid="Ma8Z89fKxXy6aAP",
-            airplane_id=3,
+            # airplane_id=3,
             passenger=95,
             fuel_capacity=600.000,
             fuel_consumption=1.069,
             flight_endurance=561.272,
-            created_at="2023-12-22 08:19:30"
         )
 
     def setUp(self):
@@ -88,3 +86,21 @@ class AirplanesTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Airplane.objects.last().passenger, 100)
+
+    def test_get_one(self):
+        airplane_obj = Airplane.objects.last()
+        existing_uid = airplane_obj.uid
+        response = self.client.get(
+            reverse("airplanes:airplanes-detail", kwargs={'pk': existing_uid}), format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_delete_one(self):
+        """
+        Hard Deletion
+        """
+        airplane_obj = Airplane.objects.last()
+        response = self.client.delete(
+            reverse("airplanes:airplanes-detail", kwargs={'pk': airplane_obj.uid}))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Airplane.objects.last(), None)

@@ -21,4 +21,4 @@ class Airplane(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.airplane_id, self.passenger}"
+        return f"{self.uid, self.airplane_id, self.passenger}"

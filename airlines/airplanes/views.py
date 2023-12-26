@@ -84,6 +84,7 @@ class AirplaneDetail(APIView, CommonProcess):
     serializer_class = AirplaneSerializer
 
     def get(self, request, pk, format=None):
+        print(request.data)
         airplane_obj = get_object_or_404(Airplane, pk=pk)
         serializer = self.serializer_class(airplane_obj)
         return Response(serializer.data)
