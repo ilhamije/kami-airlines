@@ -6,7 +6,7 @@ Limitation: Only Linux and MacOS
 
 ### Activate virtual environment
 
-`$ source ./setupvenv.sh`
+`source ./setupvenv.sh`
 
 
 ### To do a test coverage:
@@ -14,27 +14,27 @@ Limitation: Only Linux and MacOS
 From project root:
 
 ```
-$ cd airlines
+cd airlines
 ```
 
 Run coverage for tests:
 
 ```
-$ coverage run -m pytest && coverage report && coverage html
+coverage run -m pytest && coverage report && coverage html
 ```
 
 
 ### To run project
 
 ```
-$ cd airlines$
-$ ./manage.py runserver
+cd airlines$
+./manage.py runserver
 ```
 
 If necessary, do a migrations
 
 ```
-$ ./manage.py migrate
+./manage.py migrate
 ```
 
 
