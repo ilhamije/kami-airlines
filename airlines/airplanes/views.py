@@ -17,6 +17,13 @@ class CommonProcess(ABC):
             return Response({"message":"Max data is 10"}, status=status.HTTP_400_BAD_REQUEST)
 
     def calculate(self, data):
+        if isinstance(data, dict):
+            data = [data]
+
+        check_length = self.check_data_length(data)
+        if check_length:
+            return check_length
+
         new_data = []
         for i in data:
             airplane_id = int(i.get('airplane_id'))
@@ -38,6 +45,12 @@ class CommonProcess(ABC):
             new_data.append(item)
         return new_data
 
+    def validate_payload(self, data):
+        if isinstance(data, dict):
+            data = [data]
+        srlzr = AirplaneSerializer(data=data, many=True)
+        srlzr.is_valid(raise_exception=True)
+
 
 class AirplaneList(APIView, CommonProcess):
     """
@@ -52,15 +65,7 @@ class AirplaneList(APIView, CommonProcess):
 
     def post(self, request, format=None):
         data = request.data
-        srlzr = self.serializer_class(data=data, many=True)
-        srlzr.is_valid(raise_exception=True)
-
-        if isinstance(data, dict):
-            data = [data]
-
-        check_length = self.check_data_length(data)
-        if check_length:
-            return check_length
+        self.validate_payload(data)
 
         calculated_data = self.calculate(data)
         serializer = self.serializer_class(data=calculated_data, many=True)
@@ -84,17 +89,11 @@ class AirplaneDetail(APIView, CommonProcess):
         return Response(serializer.data)
 
     def patch(self, request, pk, format=None):
-        airplane_obj = get_object_or_404(Airplane, pk=pk)
-
         data = request.data
-        if isinstance(data, dict):
-            data = [data]
+        self.validate_payload(data)
 
-        check_length = self.check_data_length(data)
-        if check_length:
-            return check_length
+        airplane_obj = get_object_or_404(Airplane, pk=pk)
         calculated_data = self.calculate(data)
-
         serializer = self.serializer_class(airplane_obj, data=calculated_data[0])
         if serializer.is_valid(raise_exception=True):
             serializer.save()
