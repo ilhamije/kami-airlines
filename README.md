@@ -12,8 +12,14 @@ Steps:
 
 Coverage
 
+From project root:
+
+```
+$ cd airlines
+```
+
 Run coverage for tests:
 
 ```
-$ coverage run manage.py test airplanes -v 2
+$ coverage run -m pytest && coverage report && coverage html
 ```

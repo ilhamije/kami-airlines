@@ -12,7 +12,7 @@ class AirplanesTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.existing_data = Airplane.objects.create(
-            # airplane_id=3,
+            airplane_id=3,
             passenger=95,
             fuel_capacity=600.000,
             fuel_consumption=1.069,
