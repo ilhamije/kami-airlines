@@ -59,7 +59,7 @@ For **detail**, you open htmlcov/index.html in your browser
 ### To run project
 
 ```
-cd airlines$
+cd airlines
 ./manage.py runserver
 ```
 
