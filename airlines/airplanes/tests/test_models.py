@@ -41,14 +41,25 @@ class AirplaneTest(TestCase):
         data_map = self.data_map(self.data[0])
         created = self.create_airplane(*data_map)
         self.assertTrue(isinstance(created, Airplane))
+        self.assertEqual(created.airplane_id, 19)
         self.assertEqual(created.passenger, 125)
+        self.assertEqual(created.fuel_capacity, 200.000)
+        self.assertEqual(created.fuel_consumption, 0.204)
+        self.assertEqual(created.flight_endurance, 980.392)
 
-    def test_negative_passenger(self):
+    def test_negative_airplaneid(self):
         selected_data = self.data[0]
-        selected_data['passenger'] = -10  # Setting passenger to a negative value
+        selected_data['airplane_id'] = -10
         data_map = self.data_map(selected_data)
-
-        # Trying to create an airplane data with invalid passenger value
         with self.assertRaises(IntegrityError):
             created = self.create_airplane(*data_map)
             created.full_clean()
+
+    def test_negative_passenger(self):
+        selected_data = self.data[0]
+        selected_data['passenger'] = -10
+        data_map = self.data_map(selected_data)
+        with self.assertRaises(IntegrityError):
+            created = self.create_airplane(*data_map)
+            created.full_clean()
+

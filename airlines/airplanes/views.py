@@ -24,6 +24,7 @@ class CommonProcess(ABC):
         if check_length:
             return check_length
 
+
         new_data = []
         for i in data:
             airplane_id = int(i.get('airplane_id'))
@@ -69,12 +70,11 @@ class AirplaneList(APIView, CommonProcess):
 
         calculated_data = self.calculate(data)
         serializer = self.serializer_class(data=calculated_data, many=True)
-        try:
-            serializer.is_valid(raise_exception=True)
+
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        except ObjectDoesNotExist:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AirplaneDetail(APIView, CommonProcess):
@@ -85,16 +85,23 @@ class AirplaneDetail(APIView, CommonProcess):
 
     def get(self, request, pk, format=None):
         airplane_obj = get_object_or_404(Airplane, pk=pk)
-        serializer = AirplaneSerializer(airplane_obj)
+        serializer = self.serializer_class(airplane_obj)
         return Response(serializer.data)
 
     def patch(self, request, pk, format=None):
         data = request.data
-        self.validate_payload(data)
 
         airplane_obj = get_object_or_404(Airplane, pk=pk)
+        existing_airplane_id = airplane_obj.airplane_id
+        existing_passenger = airplane_obj.passenger
+        if 'airplane_id' not in data:
+            data['airplane_id'] = existing_airplane_id
+        if 'passenger' not in data:
+            data['passenger'] = existing_passenger
+
+        self.validate_payload(data)
         calculated_data = self.calculate(data)
-        serializer = self.serializer_class(airplane_obj, data=calculated_data[0])
+        serializer = self.serializer_class(airplane_obj, data=calculated_data[0], partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)

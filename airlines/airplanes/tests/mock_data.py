@@ -10,6 +10,11 @@ data_1_dict = {
             "passenger": 104
         }
 
+data_1_invalid = {
+            "airplane_id": 4,
+            "passenger": -104
+        }
+
 data_5 = [
         {
             "airplane_id": 1,

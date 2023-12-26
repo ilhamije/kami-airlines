@@ -2,3 +2,18 @@
 DJANGO_SETTINGS_MODULE = "airlines.settings"
 
 python_files = ["test_*.py", "*_test.py", "testing/python/*.py"]
+
+exclude_also = [
+    "*.full_clean()",
+    "def __repr__",
+    "def __str__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+    ]
